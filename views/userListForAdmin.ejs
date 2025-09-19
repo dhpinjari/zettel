@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Custom Scrollbar for better aesthetics in dark mode */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background-color: rgba(
+          156,
+          163,
+          175,
+          0.4
+        ); /* Tailwind's gray-400 with opacity */
+        border-radius: 4px;
+      }
+
+      /* Backdrop filter for the frosted glass effect */
+      .frosted-glass {
+        backdrop-filter: blur(20px) saturate(200%);
+        background-color: rgba(
+          31,
+          41,
+          55,
+          0.7
+        ); /* A semi-transparent dark gray */
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gray-950 text-gray-100 font-sans h-screen w-screen p-4 flex justify-center items-center"
+  >
+    <div
+      class="frosted-glass w-full h-full rounded-none md:rounded-2xl md:h-[95vh] md:max-w-9xl shadow-2xl flex flex-col overflow-hidden border border-gray-700"
+    >
+      <div
+        class="bg-gray-800/80 p-6 border-b border-gray-700 flex justify-between items-center"
+      >
+        <h1 class="text-3xl font-bold text-gray-50">Admin Dashboard</h1>
+        <a
+          href="#"
+          class="text-purple-400 hover:text-purple-300 transition-colors duration-200"
+          >Return to Main App</a
+        >
+      </div>
+
+      <div class="flex-1 p-6 md:p-8 overflow-y-auto">
+        <div class="bg-gray-800/60 rounded-xl shadow-lg border border-gray-700">
+          <div class="p-4 border-b border-gray-700">
+            <h2 class="text-xl font-semibold text-gray-100">User Management</h2>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-700">
+              <thead class="bg-gray-700">
+                <tr>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
+                  >
+                    User
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
+                  >
+                    Email
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
+                  >
+                    Status
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
+                  >
+                    Joined
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
+                  >
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-800">
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="flex-shrink-0 h-10 w-10">
+                        <img
+                          class="h-10 w-10 rounded-full object-cover"
+                          src="https://images.unsplash.com/photo-1570295999919-56ceb8e25679?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
+                          alt="User Profile"
+                        />
+                      </div>
+                      <div class="ml-4">
+                        <div class="text-sm font-medium text-gray-100">
+                          John Doe
+                        </div>
+                        <div class="text-sm text-gray-400">
+                          32 notes created
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-300">
+                      john.doe@example.com
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span
+                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-800/20 dark:text-green-400"
+                    >
+                      Active
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                    Jan 15, 2025
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <a
+                      href="#"
+                      class="text-indigo-400 hover:text-indigo-300 transition-colors duration-200 mr-2"
+                      >Edit</a
+                    >
+                    <a
+                      href="#"
+                      class="text-red-400 hover:text-red-300 transition-colors duration-200"
+                      >Delete</a
+                    >
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="flex-shrink-0 h-10 w-10">
+                        <img
+                          class="h-10 w-10 rounded-full object-cover"
+                          src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
+                          alt="User Profile"
+                        />
+                      </div>
+                      <div class="ml-4">
+                        <div class="text-sm font-medium text-gray-100">
+                          Jane Smith
+                        </div>
+                        <div class="text-sm text-gray-400">
+                          14 notes created
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-300">jane.s@example.com</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span
+                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-800/20 dark:text-red-400"
+                    >
+                      Inactive
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                    Feb 01, 2025
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <a
+                      href="#"
+                      class="text-indigo-400 hover:text-indigo-300 transition-colors duration-200 mr-2"
+                      >Edit</a
+                    >
+                    <a
+                      href="#"
+                      class="text-red-400 hover:text-red-300 transition-colors duration-200"
+                      >Delete</a
+                    >
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="flex-shrink-0 h-10 w-10">
+                        <img
+                          class="h-10 w-10 rounded-full object-cover"
+                          src="https://images.unsplash.com/photo-1544723795-3fb6469e8b7f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
+                          alt="User Profile"
+                        />
+                      </div>
+                      <div class="ml-4">
+                        <div class="text-sm font-medium text-gray-100">
+                          Mike Johnson
+                        </div>
+                        <div class="text-sm text-gray-400">5 notes created</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-300">mike.j@example.com</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span
+                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-800/20 dark:text-green-400"
+                    >
+                      Active
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                    Mar 10, 2025
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <a
+                      href="#"
+                      class="text-indigo-400 hover:text-indigo-300 transition-colors duration-200 mr-2"
+                      >Edit</a
+                    >
+                    <a
+                      href="#"
+                      class="text-red-400 hover:text-red-300 transition-colors duration-200"
+                      >Delete</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

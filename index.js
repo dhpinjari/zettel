@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 
 const mainNotesRoute = require("./routes/mainNotesRoute");
+const userListForAdminRoute = require("./routes/userListForAdminRoute");
 const registrationRoute = require("./routes/registrationRoute");
 const loginRoute = require("./routes/loginRoute");
 
@@ -20,4 +21,6 @@ app.get("/registration", (req, res) => {
 app.use("/mainNotes", mainNotesRoute);
 app.use("/login", loginRoute);
 app.use("/registration", registrationRoute);
+app.use("/userListForAdmin", userListForAdminRoute);
+
 app.listen(3000);
