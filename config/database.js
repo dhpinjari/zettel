@@ -1,1 +1,1 @@
-// mongodb+srv://dbuser1:<db_password>@zetteldb.yjjlrad.mongodb.net/?retryWrites=true&w=majority&appName=zettelDB
+mongodb+srv://ZettelAdmin:1fiOh6d6u9t3OciO@zetteldb.yjjlrad.mongodb.net/?retryWrites=true&w=majority&appName=zettelDB
