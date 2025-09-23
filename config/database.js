@@ -1,1 +1,1 @@
-mongodb+srv://ZettelAdmin:1fiOh6d6u9t3OciO@zetteldb.yjjlrad.mongodb.net/?retryWrites=true&w=majority&appName=zettelDB
+mongodb+srv://zettelAdmin:WLrlAzU8jrlBjczn@zetteldb.i6gcnkq.mongodb.net/?retryWrites=true&w=majority&appName=zettelDB
