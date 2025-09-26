@@ -64,9 +64,13 @@
         </p>
       </div>
 
-      <form class="w-full max-w-lg mx-auto space-y-6">
+      <form
+        class="w-full max-w-lg mx-auto space-y-6"
+        method="post"
+        action="/registration"
+      >
         <div>
-          <label for="name" class="block text-sm font-medium text-gray-200"
+          <label for="fullName" class="block text-sm font-medium text-gray-200"
             >Full Name</label
           >
           <div class="mt-1 relative rounded-md shadow-sm">
@@ -88,8 +92,8 @@
               </svg>
             </div>
             <input
-              id="name"
-              name="name"
+              id="fullName"
+              name="fullName"
               type="text"
               autocomplete="name"
               required

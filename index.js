@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+const connectDB = require("./config/database");
+require("dotenv").config();
 
 const mainNotesRoute = require("./routes/mainNotesRoute");
 const userListForAdminRoute = require("./routes/userListForAdminRoute");
