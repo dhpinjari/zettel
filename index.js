@@ -23,4 +23,4 @@ app.use("/login", loginRoute);
 app.use("/registration", registrationRoute);
 app.use("/userListForAdmin", userListForAdminRoute);
 
-app.listen(3000);
+app.listen(process.env.PORT);
