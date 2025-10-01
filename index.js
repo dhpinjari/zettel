@@ -11,6 +11,8 @@ const loginRoute = require("./routes/loginRoute");
 app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
+connectDB();
 
 app.get("/", (req, res) => {
   res.render("zettel");

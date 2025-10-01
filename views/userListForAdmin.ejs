@@ -94,19 +94,20 @@
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-800">
+                <% showAllUsers.forEach(user=>{ %>
                 <tr>
                   <td class="px-6 py-4 whitespace-nowrap">
                     <div class="flex items-center">
                       <div class="flex-shrink-0 h-10 w-10">
                         <img
                           class="h-10 w-10 rounded-full object-cover"
-                          src="https://images.unsplash.com/photo-1570295999919-56ceb8e25679?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
+                          src="/images/<%= user.profilePhoto %>"
                           alt="User Profile"
                         />
                       </div>
                       <div class="ml-4">
                         <div class="text-sm font-medium text-gray-100">
-                          John Doe
+                          <%= user.fullName %>
                         </div>
                         <div class="text-sm text-gray-400">
                           32 notes created
@@ -115,19 +116,21 @@
                     </div>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-300">
-                      john.doe@example.com
-                    </div>
+                    <div class="text-sm text-gray-300"><%= user.email %></div>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap">
                     <span
                       class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-800/20 dark:text-green-400"
                     >
-                      Active
+                      <% if (user.isActive == true ){ %>
+                      <span>Active</span>
+                      <% } else { %>
+                      <span>Not Active</span>
+                      <% } %>
                     </span>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                    Jan 15, 2025
+                    <%= new Date(user.createdAt).toLocaleDateString() %>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <a
@@ -142,8 +145,8 @@
                     >
                   </td>
                 </tr>
-
-                <tr>
+                <% }) %>
+                <!-- <tr>
                   <td class="px-6 py-4 whitespace-nowrap">
                     <div class="flex items-center">
                       <div class="flex-shrink-0 h-10 w-10">
@@ -188,9 +191,9 @@
                       >Delete</a
                     >
                   </td>
-                </tr>
+                </tr> -->
 
-                <tr>
+                <!-- <tr>
                   <td class="px-6 py-4 whitespace-nowrap">
                     <div class="flex items-center">
                       <div class="flex-shrink-0 h-10 w-10">
@@ -233,7 +236,7 @@
                       >Delete</a
                     >
                   </td>
-                </tr>
+                </tr> -->
               </tbody>
             </table>
           </div>
