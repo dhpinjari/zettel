@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 // Using express-validator for robust input checks
 const { body, validationResult } = require("express-validator"); //check this and to install 'npm install express-validator'
-const config = require("../config/config"); //// 🎯 1. IMPORT YOUR CONFIGURATION FILE
+const config = require("../config/config"); ////  1. IMPORT YOUR CONFIGURATION FILE
 
 route.get("/", (req, res) => {
   res.render("registration");
