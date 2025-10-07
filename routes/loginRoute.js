@@ -59,10 +59,9 @@ route.post("/", async (req, res) => {
     });
 
     // 8. Successful Response (Do not return sensitive data like the password hash)
-    res.status(200).json({
-      message: "Login successful.",
-      redirect: "/mainNotes", // Example: tell the client where to go next
-    });
+    // for api    res.status(200).json({message: "Login successful.", redirect: "/mainNotes"}); // Example: tell the client where to go next
+
+    res.redirect("/mainNotes");
   } catch (error) {
     console.error("Login server error:", error);
     // 9. Robust Server Error Handling
