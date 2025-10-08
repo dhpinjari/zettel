@@ -9,7 +9,7 @@ const { promisify } = require("util");
 // Promisify bcrypt.compare to use it with async/await
 const compareHash = promisify(bcrypt.compare);
 
-route.get("/:userid", async (req, res) => {
+route.get("/:userid", async (req, res, next) => {
   try {
     const EditUserDetails = await userModel.findOne({ _id: req.params.userid });
     if (!EditUserDetails) {
@@ -27,7 +27,7 @@ route.get("/:userid", async (req, res) => {
   }
 });
 
-route.post("/:userid", async (req, res) => {
+route.post("/:userid", async (req, res, next) => {
   try {
     const { fullName, email, dob, role } = req.body;
     if (!fullName || !email || !dob || !role) {
@@ -37,24 +37,40 @@ route.post("/:userid", async (req, res) => {
           "All required fields (fullName, email, dob, role) must be provided.",
       });
     }
-    const updateUser = await userModel.findOneAndUpdate(
-      { _id: req.params.userid },
-      {
-        fullName,
-        email,
-        dob,
-        role,
-      },
-      {
-        new: true, // Return the updated document
-        runValidators: true, // Enforce Mongoose schema validation rules
+
+    // 1. Check for an email conflict:
+    // Find a user with the submitted 'email' whose '_id' is NOT the 'userId' from the URL
+    const emailExist = await userModel.findOne({
+      email,
+      _id: { $ne: req.params.userid }, // $ne is the MongoDB operator for "not equal"
+    });
+
+    if (emailExist) {
+      // If a different user has this email, block the update.
+      return res.status(401).json({
+        error:
+          "Email already exists for another user. Please choose a different one.",
+      });
+    } else {
+      const updateUser = await userModel.findOneAndUpdate(
+        { _id: req.params.userid },
+        {
+          fullName,
+          email,
+          dob,
+          role,
+        },
+        {
+          new: true, // Return the updated document
+          runValidators: true, // Enforce Mongoose schema validation rules
+        }
+      );
+      if (!updateUser) {
+        // Handle case where user ID is valid but no user was found
+        return res.status(404).json({ error: "User not found for update." });
       }
-    );
-    if (!updateUser) {
-      // Handle case where user ID is valid but no user was found
-      return res.status(404).json({ error: "User not found for update." });
+      res.redirect("/userListForAdmin");
     }
-    res.redirect("/userListForAdmin");
   } catch (error) {
     // Check for Mongoose Validation Errors (e.g., email format, role enum)
     if (error.name === "ValidationError") {
