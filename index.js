@@ -7,6 +7,7 @@ const mainNotesRoute = require("./routes/mainNotesRoute");
 const userListForAdminRoute = require("./routes/userListForAdminRoute");
 const registrationRoute = require("./routes/registrationRoute");
 const loginRoute = require("./routes/loginRoute");
+const userEditByAdminRoute = require("./routes/userEditByAdminRoute");
 
 app.set("view engine", "ejs");
 app.use(express.json());
@@ -26,5 +27,6 @@ app.use("/mainNotes", mainNotesRoute);
 app.use("/login", loginRoute);
 app.use("/registration", registrationRoute);
 app.use("/userListForAdmin", userListForAdminRoute);
+app.use("/userEditByAdmin", userEditByAdminRoute);
 
 app.listen(process.env.PORT);
