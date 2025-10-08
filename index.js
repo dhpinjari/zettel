@@ -28,5 +28,6 @@ app.use("/login", loginRoute);
 app.use("/registration", registrationRoute);
 app.use("/userListForAdmin", userListForAdminRoute);
 app.use("/userEditByAdmin", userEditByAdminRoute);
+app.use("/userEditByAdmin/userPasswordResetByAdmin", userEditByAdminRoute);
 
 app.listen(process.env.PORT);

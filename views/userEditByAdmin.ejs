@@ -67,7 +67,7 @@
       <form
         class="w-full max-w-lg mx-auto space-y-6"
         method="post"
-        action="/admin/user/update/123"
+        action="/userEditByAdmin/<%= EditUserDetails._id %>"
       >
         <div>
           <label for="fullName" class="block text-sm font-medium text-gray-200"
@@ -97,7 +97,7 @@
               type="text"
               autocomplete="name"
               required
-              value="Jane Smith"
+              value="<%= EditUserDetails.fullName %>"
               class="block w-full pl-10 pr-4 py-2 rounded-lg bg-gray-700 text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-300"
               placeholder="Full Name"
             />
@@ -133,7 +133,7 @@
               type="email"
               autocomplete="email"
               required
-              value="email@example.com"
+              value="<%= EditUserDetails.email %>"
               class="block w-full pl-10 pr-4 py-2 rounded-lg bg-gray-700 text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-300"
               placeholder="you@example.com"
             />
@@ -196,8 +196,8 @@
               </svg>
             </div>
             <select
-              id="userRole"
-              name="userRole"
+              id="role"
+              name="role"
               required
               class="block w-full pl-10 pr-4 py-2 rounded-lg bg-gray-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-300 appearance-none"
             >
@@ -226,7 +226,7 @@
           >
           |
           <a
-            href="/admin/user/reset-password"
+            href="/userEditByAdmin/userPasswordResetByAdmin/<%= EditUserDetails._id %>"
             class="font-medium text-red-400 hover:text-red-500"
           >
             Reset Password</a
