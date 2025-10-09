@@ -2,12 +2,46 @@ const express = require("express");
 const route = express.Router();
 const userModel = require("../model/users");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const config = require("../config/config");
-const { promisify } = require("util");
 
-// Promisify bcrypt.compare to use it with async/await
-const compareHash = promisify(bcrypt.compare);
+route.get("/userPasswordResetByAdmin/:userid", async (req, res, next) => {
+  try {
+    const userToUpdatePassword = await userModel.findOne({
+      _id: req.params.userid,
+    });
+    res.render("userPasswordResetByAdmin", { userToUpdatePassword });
+  } catch (error) {
+    console.error(
+      `Error fetching user details for ID ${req.params.userid}:`,
+      error
+    );
+    next(error);
+  }
+});
+
+route.post("/userPasswordResetByAdmin/:userid", async (req, res, next) => {
+  const { newPassword, confirmPassword } = req.body;
+  try {
+    if (newPassword !== confirmPassword) {
+      return res.send(`Password does not match`);
+    }
+    const salt = await bcrypt.genSalt(config.BCRYPT_SALT_ROUNDS);
+    const hash = await bcrypt.hash(newPassword, salt);
+
+    const userPasswordChange = await userModel.findOneAndUpdate(
+      { _id: req.params.userid },
+      { password: hash },
+      { new: true }
+    );
+    res.redirect("/userListForAdmin");
+  } catch (error) {
+    console.error(
+      `Error fetching user details for ID ${req.params.userid}:`,
+      error
+    );
+    next(error);
+  }
+});
 
 route.get("/:userid", async (req, res, next) => {
   try {
@@ -87,10 +121,6 @@ route.post("/:userid", async (req, res, next) => {
     );
     next(error);
   }
-});
-
-route.get("/userPasswordResetByAdmin/:userid", (req, res) => {
-  res.render("userPasswordResetByAdmin");
 });
 
 module.exports = route;

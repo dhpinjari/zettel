@@ -12,7 +12,13 @@ route.get("/", (req, res) => {
 });
 
 route.post("/", async (req, res) => {
-  const { fullName, email, dob, password } = req.body;
+  const { fullName, email, dob, password, confirmPassword } = req.body;
+  // let today = new Date();
+  // let minAge = new Date(
+  //   today.getFullYear() - 18,
+  //   today.getMonth(),
+  //   today.getDate()
+  // );
 
   // 1. Input Validation (Good place for express-validator checks)
   // ...
@@ -23,6 +29,20 @@ route.post("/", async (req, res) => {
     return res.status(409).json({ message: "Email already exists" }); // Use return to stop execution
   }
 
+  if (password !== confirmPassword) {
+    return res.json({
+      message: "Password does not match",
+      success: false,
+      status: 400, // Optional: Include a status code indicating a client error
+    });
+  }
+  // if (dob < minAge) {
+  //   return res.json({
+  //     message: "User must be at least 18 years old",
+  //     success: false,
+  //     status: 400, // Optional: Include a status code indicating a client error
+  //   });
+  // }
   try {
     // Use promise-based bcrypt functions (more readable) // Hash password with salt rounds from config
     const salt = await bcrypt.genSalt(config.BCRYPT_SALT_ROUNDS);
