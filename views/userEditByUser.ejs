@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Profile - Zettel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Custom Scrollbar for better aesthetics in dark mode */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background-color: rgba(
+          156,
+          163,
+          175,
+          0.4
+        ); /* Tailwind's gray-400 with opacity */
+        border-radius: 4px;
+      }
+
+      /* Backdrop filter for the frosted glass effect */
+      .frosted-glass {
+        backdrop-filter: blur(20px) saturate(200%);
+        background-color: rgba(
+          31,
+          41,
+          55,
+          0.7
+        ); /* A semi-transparent dark gray */
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gray-950 text-gray-100 font-sans h-screen w-screen p-4 flex justify-center items-center"
+  >
+    <div
+      class="frosted-glass w-full h-full rounded-none md:rounded-2xl md:h-[95vh] md:max-w-9xl shadow-2xl flex flex-col md:flex-row overflow-hidden border border-gray-700"
+    >
+      <div
+        class="w-full md:w-1/3 lg:w-1/4 xl:w-1/5 bg-gray-800/80 p-4 border-r border-gray-700 flex flex-col"
+      >
+        <div
+          class="flex items-center justify-between pb-4 border-b border-gray-700 mb-4"
+        >
+          <div class="relative">
+            <button
+              id="profile-btn"
+              class="flex items-center space-x-3 focus:outline-none"
+            >
+              <img
+                class="w-10 h-10 rounded-full border-2 border-purple-500 shadow-md object-cover"
+                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=1400&q=80"
+                alt="Profile Picture"
+              />
+              <h2 class="text-xl font-semibold text-gray-50">Zettel</h2>
+            </button>
+
+            <div
+              id="profile-menu"
+              class="absolute left-0 top-12 z-10 w-56 p-2 rounded-lg shadow-lg frosted-glass hidden"
+            >
+              <div class="py-1">
+                <a
+                  href="#"
+                  class="block px-4 py-2 text-sm text-purple-300 bg-gray-700/50 rounded-md"
+                  >Edit Profile</a
+                >
+                <a
+                  href="#"
+                  class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700 rounded-md"
+                  >Settings</a
+                >
+                <a
+                  href="#"
+                  class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700 rounded-md"
+                  >Change Password</a
+                >
+                <a
+                  href="#"
+                  class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700 rounded-md"
+                  >Log Out</a
+                >
+              </div>
+            </div>
+          </div>
+          <button
+            class="text-gray-400 hover:text-gray-50 transition-colors duration-200"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 4.5v15m7.5-7.5h-15"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div class="relative w-full mb-4">
+          <input
+            type="text"
+            placeholder="Search all"
+            class="w-full pl-10 pr-4 py-2 rounded-lg bg-gray-700 text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-300"
+          />
+          <div
+            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 text-gray-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+          </div>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto space-y-1">
+          <a
+            href="#"
+            class="flex items-center space-x-3 p-3 rounded-lg text-gray-200 hover:bg-gray-700/60 transition duration-200"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 text-purple-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+              />
+            </svg>
+            <span class="font-medium">Dashboard</span>
+          </a>
+
+          <a
+            href="/mainNotes"
+            class="flex items-center space-x-3 p-3 rounded-lg text-gray-200 hover:bg-gray-700/60 transition duration-200"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 text-purple-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              />
+            </svg>
+            <span class="font-medium">Notes</span>
+          </a>
+
+          <a
+            href="#"
+            class="flex items-center space-x-3 p-3 rounded-lg text-gray-200 hover:bg-gray-700/60 transition duration-200"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 text-purple-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M8 7v8a2 2 0 002 2l6-3m-3-1l3 1m1-1l-3-1m6 10a2 2 0 11-4 0 2 2 0 014 0zm-8-2a2 2 0 11-4 0 2 2 0 014 0z"
+              />
+            </svg>
+            <span class="font-medium">Tags</span>
+          </a>
+
+          <a
+            href="#"
+            class="flex items-center space-x-3 p-3 rounded-lg text-gray-200 hover:bg-gray-700/60 transition duration-200"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 text-purple-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M19 20V5a2 2 0 00-2-2H7a2 2 0 00-2 2v15m12 0h2m-2 0h-2M5 20h2M5 10h14"
+              />
+            </svg>
+            <span class="font-medium">Archive</span>
+          </a>
+
+          <a
+            href="#"
+            class="flex items-center space-x-3 p-3 rounded-lg text-gray-200 hover:bg-gray-700/60 transition duration-200"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 text-purple-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37a1.724 1.724 0 002.572-1.065z"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+            </svg>
+            <span class="font-medium">Settings</span>
+          </a>
+        </nav>
+
+        <div class="mt-4 pt-4 border-t border-gray-700">
+          <a
+            href="#"
+            class="flex items-center space-x-3 p-3 rounded-lg text-red-400 hover:bg-red-700/30 transition duration-200"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3v-3m6-4V4a3 3 0 013-3h3a3 3 0 013 3v3"
+              />
+            </svg>
+            <span class="font-medium">Log Out</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="flex flex-col flex-1 p-8 bg-gray-800/50 overflow-y-auto">
+        <div
+          class="flex items-center justify-between pb-4 border-b border-gray-700 mb-6"
+        >
+          <h1 class="text-3xl font-bold text-gray-50">Edit Profile</h1>
+        </div>
+
+        <form
+          class="space-y-6 max-w-lg mx-auto w-full"
+          action="/userEditByUser"
+          method="post"
+        >
+          <div class="flex flex-col items-center space-y-4">
+            <img
+              class="w-24 h-24 rounded-full border-4 border-purple-500 shadow-xl object-cover"
+              name="profilePhoto"
+              src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=1400&q=80"
+              alt="Current Profile Picture"
+            />
+            <button
+              type="button"
+              class="text-purple-400 text-sm hover:text-purple-300 transition-colors duration-200"
+            >
+              Change Profile Picture
+            </button>
+          </div>
+
+          <div>
+            <label
+              for="fullName"
+              class="block text-sm font-medium text-gray-300 mb-1"
+            >
+              Full Name
+            </label>
+            <input
+              type="text"
+              id="fullName"
+              name="fullName"
+              value="Alex Johnson"
+              class="w-full px-4 py-2 rounded-lg bg-gray-700 text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 border border-gray-600 transition duration-300"
+            />
+          </div>
+
+          <div>
+            <label
+              for="email"
+              class="block text-sm font-medium text-gray-300 mb-1"
+            >
+              Email Address
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value="alex.johnson@example.com"
+              class="w-full px-4 py-2 rounded-lg bg-gray-700 text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 border border-gray-600 transition duration-300"
+            />
+          </div>
+
+          <div>
+            <label
+              for="dob"
+              class="block text-sm font-medium text-gray-300 mb-1"
+            >
+              Date of Birth
+            </label>
+            <input
+              type="date"
+              id="dob"
+              name="dob"
+              value="1990-01-01"
+              class="w-full px-4 py-2 rounded-lg bg-gray-700 text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 border border-gray-600 transition duration-300"
+            />
+          </div>
+          <div class="pt-2 border-t border-gray-700">
+            <label
+              for="currentPassword"
+              class="block text-sm font-medium text-gray-300 mb-1"
+            >
+              Current Password
+            </label>
+            <input
+              type="password"
+              id="currentPassword"
+              name="currentPassword"
+              placeholder="Enter current password"
+              class="w-full px-4 py-2 rounded-lg bg-gray-700 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 border border-gray-600 transition duration-300"
+            />
+            <p class="mt-1 text-xs text-gray-400">
+              Required to save profile changes.
+            </p>
+          </div>
+
+          <div>
+            <label
+              for="newPassword"
+              class="block text-sm font-medium text-gray-300 mb-1"
+            >
+              New Password (Optional)
+            </label>
+            <input
+              type="password"
+              id="newPassword"
+              name="newPassword"
+              placeholder="Leave blank to keep current password"
+              class="w-full px-4 py-2 rounded-lg bg-gray-700 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 border border-gray-600 transition duration-300"
+            />
+          </div>
+
+          <div class="pt-4">
+            <button
+              type="submit"
+              class="w-full py-3 bg-purple-600 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-opacity-50 transition duration-300 transform hover:scale-[1.01]"
+            >
+              Save Changes
+            </button>
+          </div>
+        </form>
+
+        <div
+          class="mt-10 pt-6 border-t border-red-700 max-w-lg mx-auto w-full text-center"
+        >
+          <h3 class="text-xl font-semibold text-red-400 mb-3">Danger Zone</h3>
+          <button
+            type="button"
+            class="py-2 px-4 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition duration-300"
+          >
+            Delete Account
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const profileBtn = document.getElementById("profile-btn");
+      const profileMenu = document.getElementById("profile-menu");
+
+      profileBtn.addEventListener("click", () => {
+        profileMenu.classList.toggle("hidden");
+      });
+
+      // Close the menu if the user clicks outside of it
+      window.addEventListener("click", (e) => {
+        if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
+          profileMenu.classList.add("hidden");
+        }
+      });
+    </script>
+  </body>
+</html>
