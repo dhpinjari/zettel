@@ -57,7 +57,9 @@
                 src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=1400&q=80"
                 alt="Profile Picture"
               />
-              <h2 class="text-xl font-semibold text-gray-50">Notes</h2>
+              <h2 class="text-xl font-semibold text-gray-50">
+                <%= userDetail.fullName %>'s Notes
+              </h2>
             </button>
 
             <div
@@ -66,17 +68,17 @@
             >
               <div class="py-1">
                 <a
-                  href="#"
+                  href="/userEditByUser/<%= userDetail._id %>"
                   class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700 rounded-md"
                   >Settings</a
                 >
                 <a
-                  href="/userEditByUser"
+                  href="/userEditByUser/<%= userDetail._id %>"
                   class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700 rounded-md"
                   >Edit Profile</a
                 >
                 <a
-                  href="#"
+                  href="/userPasswordResetByUser/<%= userDetail._id %>"
                   class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700 rounded-md"
                   >Change Password</a
                 >

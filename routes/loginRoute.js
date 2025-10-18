@@ -54,12 +54,13 @@ route.post("/", async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true, // Crucial: Prevents client-side JavaScript access (XSS defense)
 
-      maxAge: tokenExpirySeconds * 1000, // Explicit expiry in milliseconds
+      maxAge: tokenExpirySeconds * 3600 * 1000, // Explicit expiry in milliseconds
       // secure: process.env.NODE_ENV === "production", // Crucial: Only send cookie over HTTPS in production [Porduction setting]
       // sameSite: "strict", // Crucial: CSRF defense [Porduction setting]
 
-      secure: true, // only if HTTPS is used [Local setting]
+      secure: false, // true only if HTTPS is used [false as Local testing]
       sameSite: "lax", // [Local setting]
+      path: "/",
     });
 
     // 8. Successful Response (Do not return sensitive data like the password hash)
