@@ -16,24 +16,40 @@ route.post("/", async (req, res) => {
   try {
     const decoded = jwt.verify(token, config.JWT_SECRET);
     const userID = decoded.userID;
-    const userDetail = await userModel.findOne({ _id: userID });
+    const userDetail = await userModel
+      .findOne({ _id: userID })
+      .select("+password"); //schema has password set as select: false, you need to explicitly select it:
 
     bcrypt.compare(
       currentPassword,
       userDetail.password,
       async (err, result) => {
-        if (err) return res.send("error");
-        const salt = await bcrypt.genSalt(config.BCRYPT_SALT_ROUNDS);
-        const hash = await bcrypt.hash(newPassword, salt);
+        if (err) {
+          // Handle bcrypt comparison error (e.g., bad hash in database)
+          console.error("Bcrypt compare error:", err);
+          return res.status(500).send("Password comparison failed.");
+          // return res.json({
+          //   user: userDetail.fullName,
+          //   id: userDetail._id,
+          // });
+        }
 
-        const updatePassword = await userModel.findOneAndUpdate(
-          {
-            _id: userID,
-          },
-          { password: hash },
-          { new: true }
-        );
-        res.send("password updated");
+        if (!result) {
+          // Handle incorrect current password
+          return res.status(401).send("Incorrect current password.");
+        } else {
+          const salt = await bcrypt.genSalt(config.BCRYPT_SALT_ROUNDS);
+          const hash = await bcrypt.hash(newPassword, salt);
+
+          const updatePassword = await userModel.findOneAndUpdate(
+            {
+              _id: userID,
+            },
+            { password: hash },
+            { new: true }
+          );
+          res.send("Password updated");
+        }
       }
     );
   } catch (error) {
