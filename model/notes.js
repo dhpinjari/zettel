@@ -12,12 +12,12 @@ const noteSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please add the note content"],
     },
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // Ensures relationship to the User model
-      required: true,
-      index: true, // Optimizes queries for a specific user's notes
-    },
+    // user: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "User", // Ensures relationship to the User model
+    //   required: true,
+    //   index: true, // Optimizes queries for a specific user's notes
+    // },
   },
   {
     timestamps: true,
