@@ -250,26 +250,27 @@
       const addNewBtn = document.getElementById("AddNewTask");
       const cancelBtn = document.getElementById("cancelBtn");
       const viewMode = document.getElementById("viewMode");
-      const editMode = document.getElementById("editMode");
-      const titleInput = editMode.querySelector('input[name="title"]');
+      const noteForm = document.getElementById("createNewNote");
+      const titleInput = noteForm.querySelector('input[name="title"]');
 
       // Profile dropdown logic
-      profileBtn.addEventListener("click", () => {
+      profileBtn.addEventListener("click", (e) => {
+        e.stopPropagation(); // Prevents immediate closing from window click
         profileMenu.classList.toggle("hidden");
       });
 
-      // Switch to Edit/Create Mode
+      // Switch to Create Mode
       addNewBtn.addEventListener("click", () => {
         viewMode.classList.add("hidden");
-        editMode.classList.remove("hidden");
-        titleInput.focus(); // Focus the title automatically
+        noteForm.classList.remove("hidden");
+        titleInput.focus();
       });
 
       // Switch back to View Mode
       cancelBtn.addEventListener("click", () => {
-        editMode.classList.add("hidden");
+        noteForm.classList.add("hidden");
         viewMode.classList.remove("hidden");
-        editMode.reset(); // Clear the form
+        noteForm.reset();
       });
 
       // Close profile menu if clicking outside
