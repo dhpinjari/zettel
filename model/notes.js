@@ -12,16 +12,16 @@ const noteSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please add the note content"],
     },
-    // user: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "User", // Ensures relationship to the User model
-    //   required: true,
-    //   index: true, // Optimizes queries for a specific user's notes
-    // },
+    userid: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "userModel", //  "userModel" as it is exported from users db
+      required: true,
+      index: true,
+    },
   },
   {
     timestamps: true,
   },
 );
 
-module.exports = mongoose.model("Note", noteSchema);
+module.exports = mongoose.model("noteModel", noteSchema);

@@ -3,243 +3,121 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Zettel</title>
+    <title>Zettel - Notes</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      /* Custom Scrollbar for better aesthetics in dark mode */
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: transparent;
-      }
-      ::-webkit-scrollbar-thumb {
-        background-color: rgba(156, 163, 175, 0.4);
-        border-radius: 4px;
-      }
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { background-color: rgba(156, 163, 175, 0.4); border-radius: 4px; }
 
-      /* Backdrop filter for the frosted glass effect */
       .frosted-glass {
         backdrop-filter: blur(20px) saturate(200%);
         background-color: rgba(31, 41, 55, 0.7);
       }
+      .note-item.active {
+        background-color: rgba(168, 85, 247, 0.8);
+        border-color: #a855f7;
+      }
     </style>
   </head>
-  <body
-    class="bg-gray-950 text-gray-100 font-sans h-screen w-screen p-4 flex justify-center items-center overflow-hidden"
-  >
-    <div
-      class="frosted-glass w-full h-full rounded-none md:rounded-2xl md:h-[95vh] md:max-w-9xl shadow-2xl flex flex-col md:flex-row overflow-hidden border border-gray-700"
-    >
-      <div
-        class="w-full md:w-1/3 lg:w-1/4 xl:w-1/5 bg-gray-800/80 p-4 border-r border-gray-700 flex flex-col"
-      >
-        <div
-          class="flex items-center justify-between pb-4 border-b border-gray-700 mb-4"
-        >
+  <body class="bg-gray-950 text-gray-100 font-sans h-screen w-screen p-4 flex justify-center items-center overflow-hidden">
+    
+    <div class="frosted-glass w-full h-full rounded-none md:rounded-2xl md:h-[95vh] md:max-w-9xl shadow-2xl flex flex-col md:flex-row overflow-hidden border border-gray-700">
+      
+      <div class="w-full md:w-1/3 lg:w-1/4 xl:w-1/5 bg-gray-800/80 p-4 border-r border-gray-700 flex flex-col">
+        <div class="flex items-center justify-between pb-4 border-b border-gray-700 mb-4">
           <div class="relative">
-            <button
-              id="profile-btn"
-              class="flex items-center space-x-3 focus:outline-none"
-            >
-              <img
-                class="w-10 h-10 rounded-full border-2 border-purple-500 shadow-md object-cover"
-                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=1400&q=80"
-                alt="Profile Picture"
-              />
-              <h2 class="text-xl font-semibold text-gray-50">
-                <%= userDetail.fullName %>'s Notes
-              </h2>
+            <button id="profile-btn" class="flex items-center space-x-3 focus:outline-none">
+              <img class="w-10 h-10 rounded-full border-2 border-purple-500 shadow-md object-cover" 
+                   src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" alt="Profile" />
+              <h2 class="text-xl font-semibold text-gray-50"><%= userDetail.fullName %></h2>
             </button>
-
-            <div
-              id="profile-menu"
-              class="absolute left-0 top-12 z-10 w-56 p-2 rounded-lg shadow-lg frosted-glass hidden border border-gray-600"
-            >
+            
+            <div id="profile-menu" class="absolute left-0 top-12 z-10 w-56 p-2 rounded-lg shadow-lg frosted-glass hidden border border-gray-600">
               <div class="py-1">
-                <a
-                  href="/userEditByUser/<%= userDetail._id %>"
-                  class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700 rounded-md"
-                  >Settings</a
-                >
-                <a
-                  href="/userEditByUser/<%= userDetail._id %>"
-                  class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700 rounded-md"
-                  >Edit Profile</a
-                >
-                <a
-                  href="/userPasswordResetByUser/<%= userDetail._id %>"
-                  class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700 rounded-md"
-                  >Change Password</a
-                >
-                <a
-                  href="#"
-                  class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700 rounded-md"
-                  >Log Out</a
-                >
+                <a href="/userEditByUser/<%= userDetail._id %>" class="block px-4 py-2 text-sm hover:bg-gray-700 rounded-md">Settings</a>
+                <a href="#" class="block px-4 py-2 text-sm text-red-400 hover:bg-gray-700 rounded-md">Log Out</a>
               </div>
             </div>
           </div>
-          <button
-            id="AddNewTask"
-            class="text-purple-400 hover:text-purple-300 transition-colors duration-200 p-1 hover:bg-gray-700/50 rounded-full"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-8 w-8"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M12 4.5v15m7.5-7.5h-15"
-              />
+          <button id="AddNewTask" class="text-purple-400 hover:text-purple-300 transition-colors p-1 hover:bg-gray-700/50 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
           </button>
         </div>
 
         <div class="relative w-full mb-4">
-          <input
-            type="text"
-            placeholder="Search notes"
-            class="w-full pl-10 pr-4 py-2 rounded-lg bg-gray-700 text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-300"
-          />
-          <div
-            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5 text-gray-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
+          <input type="text" placeholder="Search notes" class="w-full pl-10 pr-4 py-2 rounded-lg bg-gray-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500" />
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
           </div>
         </div>
 
-        <div class="flex-1 overflow-y-auto space-y-2 pr-2">
-          <div
-            class="bg-purple-600/60 p-3 rounded-lg cursor-pointer transition-transform duration-200 transform hover:scale-[1.01] shadow-lg border border-purple-500"
-          >
-            <h4 class="text-base font-semibold text-gray-50">
-              Project Kickoff
-            </h4>
-            <p class="text-sm text-gray-200 mt-1 line-clamp-2">
-              Discussed goals, timeline, and key stakeholders...
-            </p>
-            <span class="text-xs text-gray-300 mt-2 block">September 19</span>
-          </div>
+        <div id="notes-container" class="flex-1 overflow-y-auto space-y-2 pr-2">
+          <% if(userNotes.length > 0) { %>
+            <% userNotes.forEach(note => { %>
+              <div 
+                class="note-item bg-gray-700/50 p-3 rounded-lg cursor-pointer transition-all duration-200 hover:bg-gray-700 border border-transparent"
+                data-id="<%= note._id %>"
+                data-title="<%= note.title %>"
+                data-content="<%= note.mainNote %>"
+              >
+                <h4 class="text-base font-semibold text-gray-50 truncate"><%= note.title %></h4>
+                <p class="text-sm text-gray-400 mt-1 line-clamp-1"><%= note.mainNote %></p>
+                <span class="text-xs text-gray-500 mt-2 block">Sept 19</span>
+              </div>
+            <% }) %>
+          <% } else { %>
+            <div class="text-center text-gray-500 mt-10">No notes yet</div>
+          <% } %>
         </div>
       </div>
 
-      <div class="hidden md:flex flex-col flex-1 bg-gray-800/50">
-        <div id="viewMode" class="flex flex-col h-full p-8">
-          <div
-            class="flex items-center justify-between pb-4 border-b border-gray-700 mb-4"
-          >
-            <h1 class="text-3xl font-bold text-gray-50">Project Kickoff</h1>
-            <div class="flex space-x-4 text-gray-400">
-              <button class="hover:text-gray-50 transition-colors duration-200">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                  />
-                </svg>
-              </button>
-              <button class="hover:text-red-400 transition-colors duration-200">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-          <div class="flex-1 overflow-y-auto pr-2 text-gray-300 space-y-4">
-            <p>
-              This is a detailed note about the project kickoff meeting. Select
-              a note from the sidebar or click "+" to create a new one.
-            </p>
-          </div>
-          <div class="mt-4 pt-4 border-t border-gray-700 text-sm text-gray-500">
-            Last edited: September 19, 2025
-          </div>
+      <div class="flex flex-col flex-1 bg-gray-800/30">
+        
+        <div id="welcome-screen" class="flex flex-col items-center justify-center h-full text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mb-4 opacity-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <p>Select a note to view or create a new one</p>
         </div>
 
-        <form
-          id="createNewNote"
-          action="/createNote"
-          method="POST"
-          class="hidden flex flex-col h-full p-8 space-y-4"
-        >
-          <div
-            class="flex items-center justify-between pb-4 border-b border-gray-700 mb-4"
-          >
+        <form id="note-form" action="/createNote" method="POST" class="hidden flex flex-col h-full p-8 space-y-4">
+          <input type="hidden" name="noteId" id="note-id-input">
+
+          <div class="flex items-center justify-between pb-4 border-b border-gray-700 mb-4">
             <input
               type="text"
               name="title"
-              id="title"
+              id="title-input"
               placeholder="Note Title..."
               required
-              class="bg-transparent text-3xl font-bold text-gray-50 outline-none w-full placeholder-gray-600 focus:ring-0"
+              class="bg-transparent text-3xl font-bold text-gray-50 outline-none w-full placeholder-gray-700"
             />
             <div class="flex space-x-3">
-              <button
-                type="button"
-                id="cancelBtn"
-                class="px-4 py-2 text-sm text-gray-400 hover:text-gray-50 transition"
-              >
-                Cancel
+              <button type="button" id="deleteBtn" class="hidden p-2 text-gray-400 hover:text-red-400 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
               </button>
-              <button
-                type="submit"
-                class="px-6 py-2 bg-purple-600 hover:bg-purple-500 text-white font-semibold rounded-lg shadow-lg transition active:scale-95"
-              >
-                Save Note
+              <button type="button" id="cancelBtn" class="px-4 py-2 text-sm text-gray-400 hover:text-gray-50 transition">Cancel</button>
+              <button type="submit" class="px-6 py-2 bg-purple-600 hover:bg-purple-500 text-white font-semibold rounded-lg shadow-lg transition active:scale-95">
+                Save
               </button>
             </div>
           </div>
 
           <textarea
-            id="mainnote"
+            id="content-input"
             name="mainnote"
             placeholder="Start typing your note here..."
             required
-            class="flex-1 bg-transparent text-gray-300 outline-none resize-none text-lg leading-relaxed placeholder-gray-600"
+            class="flex-1 bg-transparent text-gray-300 outline-none resize-none text-lg leading-relaxed placeholder-gray-700"
           ></textarea>
 
-          <div
-            class="pt-4 border-t border-gray-700 text-xs text-gray-500 uppercase tracking-widest"
-          >
-            Compose Mode
+          <div id="mode-indicator" class="pt-4 border-t border-gray-700 text-xs text-gray-500 uppercase tracking-widest">
+            New Note Mode
           </div>
         </form>
       </div>
@@ -248,38 +126,77 @@
     <script>
       const profileBtn = document.getElementById("profile-btn");
       const profileMenu = document.getElementById("profile-menu");
-
       const addNewBtn = document.getElementById("AddNewTask");
       const cancelBtn = document.getElementById("cancelBtn");
-      const viewMode = document.getElementById("viewMode");
-      const noteForm = document.getElementById("createNewNote");
-      const titleInput = noteForm.querySelector('input[name="title"]');
+      const noteForm = document.getElementById("note-form");
+      const welcomeScreen = document.getElementById("welcome-screen");
+      const deleteBtn = document.getElementById("deleteBtn");
+      
+      const titleInput = document.getElementById("title-input");
+      const contentInput = document.getElementById("content-input");
+      const idInput = document.getElementById("note-id-input");
+      const modeIndicator = document.getElementById("mode-indicator");
+      const noteItems = document.querySelectorAll(".note-item");
 
-      // Profile dropdown logic
+      // Helper: Show Editor
+      function openEditor(isEdit = false, data = {}) {
+        welcomeScreen.classList.add("hidden");
+        noteForm.classList.remove("hidden");
+        
+        if (isEdit) {
+          noteForm.action = "/updateNote"; // Change action to your update route
+          idInput.value = data.id;
+          titleInput.value = data.title;
+          contentInput.value = data.content;
+          modeIndicator.innerText = "Edit Mode";
+          deleteBtn.classList.remove("hidden");
+        } else {
+          noteForm.action = "/createNote";
+          noteForm.reset();
+          idInput.value = "";
+          modeIndicator.innerText = "Compose Mode";
+          deleteBtn.classList.add("hidden");
+        }
+        titleInput.focus();
+      }
+
+      // Handle clicking a Note Item
+      noteItems.forEach(item => {
+        item.addEventListener("click", () => {
+          // Visual selection state
+          noteItems.forEach(i => i.classList.remove('active', 'bg-purple-500/60'));
+          item.classList.add('active', 'bg-purple-500/60');
+
+          const noteData = {
+            id: item.dataset.id,
+            title: item.dataset.title,
+            content: item.dataset.content
+          };
+          openEditor(true, noteData);
+        });
+      });
+
+      // New Note Button
+      addNewBtn.addEventListener("click", () => {
+        noteItems.forEach(i => i.classList.remove('active', 'bg-purple-500/60'));
+        openEditor(false);
+      });
+
+      // Cancel Button
+      cancelBtn.addEventListener("click", () => {
+        noteForm.classList.add("hidden");
+        welcomeScreen.classList.remove("hidden");
+        noteItems.forEach(i => i.classList.remove('active', 'bg-purple-500/60'));
+      });
+
+      // Dropdown Logic
       profileBtn.addEventListener("click", (e) => {
-        e.stopPropagation(); // Prevents immediate closing from window click
+        e.stopPropagation();
         profileMenu.classList.toggle("hidden");
       });
 
-      // Switch to Create Mode
-      addNewBtn.addEventListener("click", () => {
-        viewMode.classList.add("hidden");
-        noteForm.classList.remove("hidden");
-        titleInput.focus();
-      });
-
-      // Switch back to View Mode
-      cancelBtn.addEventListener("click", () => {
-        noteForm.classList.add("hidden");
-        viewMode.classList.remove("hidden");
-        noteForm.reset();
-      });
-
-      // Close profile menu if clicking outside
       window.addEventListener("click", (e) => {
-        if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
-          profileMenu.classList.add("hidden");
-        }
+        if (!profileBtn.contains(e.target)) profileMenu.classList.add("hidden");
       });
     </script>
   </body>

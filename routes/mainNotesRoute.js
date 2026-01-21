@@ -3,6 +3,7 @@ const route = express.Router();
 const jwt = require("jsonwebtoken");
 const config = require("../config/config");
 const userModel = require("../model/users");
+const noteModel = require("../model/notes");
 
 route.get("/", async (req, res) => {
   const token = req.cookies.token;
@@ -14,10 +15,14 @@ route.get("/", async (req, res) => {
   try {
     const decoded = jwt.verify(token, config.JWT_SECRET);
     const userID = decoded.userID;
-    const userDetail = await userModel.findOne({ _id: userID });
+    const [userDetail, userNotes] = await Promise.all([
+      userModel.findById({ _id: userID }),
+      noteModel.find({ userid: userID }),
+    ]);
 
-    console.log(userDetail);
-    res.render("zettel", { userDetail });
+    // await userModel.findOne({ _id: userID });
+
+    res.render("zettel", { userDetail, userNotes });
   } catch (error) {
     console.error("Error accessing zettel route:", error);
     return res
