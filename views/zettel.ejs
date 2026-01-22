@@ -65,7 +65,7 @@
               >
                 <h4 class="text-base font-semibold text-gray-50 truncate"><%= note.title %></h4>
                 <p class="text-sm text-gray-400 mt-1 line-clamp-1"><%= note.mainNote %></p>
-                <span class="text-xs text-gray-500 mt-2 block">Sept 19</span>
+                <span class="text-xs text-gray-500 mt-2 block"><%= note.createdAt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %></span>
               </div>
             <% }) %>
           <% } else { %>
@@ -145,7 +145,7 @@
         noteForm.classList.remove("hidden");
         
         if (isEdit) {
-          noteForm.action = "/updateNote"; // Change action to your update route
+          noteForm.action = `/updateNote/${data.id}`;// Change action to your update route
           idInput.value = data.id;
           titleInput.value = data.title;
           contentInput.value = data.content;

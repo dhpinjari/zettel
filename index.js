@@ -12,6 +12,7 @@ const userEditByAdminRoute = require("./routes/userEditByAdminRoute");
 const userEditByUserRoute = require("./routes/userEditByUserRoute");
 const userPasswordResetByUserRoute = require("./routes/userPasswordResetByUserRoute");
 const createNewNoteRoute = require("./routes/createNewNoteRoute");
+const updateNoteRoute = require("./routes/updateNote");
 
 app.set("view engine", "ejs");
 app.use(express.json());
@@ -37,5 +38,6 @@ app.use("/userEditByAdmin/userPasswordResetByAdmin", userEditByAdminRoute);
 app.use("/userEditByUser", userEditByUserRoute);
 app.use("/userPasswordResetByUser", userPasswordResetByUserRoute);
 app.use("/createNote", createNewNoteRoute);
+app.use("/updateNote", updateNoteRoute);
 
 app.listen(process.env.PORT);
