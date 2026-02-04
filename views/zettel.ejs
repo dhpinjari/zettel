@@ -18,6 +18,9 @@
         background-color: rgba(168, 85, 247, 0.8);
         border-color: #a855f7;
       }
+      /* Hide default checkbox appearance for a cleaner look if desired, 
+         but keeping standard tailwind utility for reliability */
+      .note-checkbox { accent-color: #a855f7; }
     </style>
   </head>
   <body class="bg-gray-950 text-gray-100 font-sans h-screen w-screen p-4 flex justify-center items-center overflow-hidden">
@@ -47,44 +50,51 @@
           </button>
         </div>
 
-        <div class="relative w-full mb-4">
-          <input type="text" placeholder="Search notes" class="w-full pl-10 pr-4 py-2 rounded-lg bg-gray-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500" />
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+        <div class="relative w-full mb-4 h-10">
+          <div id="search-container" class="relative w-full">
+            <input type="text" placeholder="Search notes" class="w-full pl-10 pr-4 py-2 rounded-lg bg-gray-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500" />
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+            </div>
+          </div>
+
+          <div id="bulk-action-bar" class="hidden flex items-center justify-between w-full h-full bg-gray-700/50 border border-purple-500/30 rounded-lg px-2 animate-in fade-in duration-200">
+            <div class="flex items-center space-x-2">
+              <input type="checkbox" id="select-all-checkbox" class="w-4 h-4 rounded border-gray-600 text-purple-600 focus:ring-purple-500 bg-gray-800">
+              <span class="text-xs font-medium text-gray-300 uppercase">All</span>
+            </div>
+            <button form="bulk-delete-form" type="submit" class="text-red-400 hover:text-red-300 text-xs font-bold flex items-center uppercase tracking-wider">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+              Delete
+            </button>
           </div>
         </div>
 
-        <div id="notes-container" class="flex-1 overflow-y-auto space-y-2 pr-2">
-          <% if(userNotes.length > 0) { %>
-            <% userNotes.forEach(note => { %>
-             <div 
-    class="note-item group relative bg-gray-700/50 p-3 rounded-lg cursor-pointer transition-all duration-200 hover:bg-gray-700 border border-transparent"
-    data-id="<%= note._id %>"
-    data-title="<%= note.title %>"
-    data-content="<%= note.mainNote %>"
-  >
-    <div class="pr-8"> <h4 class="text-base font-semibold text-gray-50 truncate"><%= note.title %></h4>
-      <p class="text-sm text-gray-400 mt-1 line-clamp-1"><%= note.mainNote %></p>
-      <span class="text-xs text-gray-500 mt-2 block"><%= note.createdAt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %></span>
-    </div>
+        <form id="bulk-delete-form" action="/deleteMultipleNotes" method="POST" class="flex-1 flex flex-col overflow-hidden">
+          <div id="notes-container" class="flex-1 overflow-y-auto space-y-2 pr-2">
+            <% if(userNotes.length > 0) { %>
+              <% userNotes.forEach(note => { %>
+                <div class="note-item group relative bg-gray-700/50 p-3 rounded-lg cursor-pointer transition-all duration-200 hover:bg-gray-700 border border-transparent flex items-start space-x-3"
+                     data-id="<%= note._id %>"
+                     data-title="<%= note.title %>"
+                     data-content="<%= note.mainNote %>">
+                  
+                  <input type="checkbox" name="selectedNotes" value="<%= note._id %>" 
+                         class="note-checkbox mt-1.5 w-4 h-4 rounded border-gray-500 text-purple-500 bg-gray-800 focus:ring-purple-500 transition-all opacity-40 group-hover:opacity-100 checked:opacity-100"
+                         onclick="event.stopPropagation()">
 
-    <form action="/deleteSingleNote/<%= note._id %>" method="POST" class="absolute top-3 right-3">
-      <button 
-        type="submit" 
-        onclick="return confirmDelete(event)" 
-        class="opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-red-500 p-1"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-        </svg>
-      </button>
-    </form>
-  </div>
-            <% }) %>
-          <% } else { %>
-            <div class="text-center text-gray-500 mt-10">No notes yet</div>
-          <% } %>
-        </div>
+                  <div class="flex-1 overflow-hidden">
+                    <h4 class="text-base font-semibold text-gray-50 truncate"><%= note.title %></h4>
+                    <p class="text-sm text-gray-400 mt-1 line-clamp-1"><%= note.mainNote %></p>
+                    <span class="text-xs text-gray-500 mt-2 block"><%= note.createdAt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %></span>
+                  </div>
+                </div>
+              <% }) %>
+            <% } else { %>
+              <div class="text-center text-gray-500 mt-10">No notes yet</div>
+            <% } %>
+          </div>
+        </form>
       </div>
 
       <div class="flex flex-col flex-1 bg-gray-800/30">
@@ -109,7 +119,7 @@
               class="bg-transparent text-3xl font-bold text-gray-50 outline-none w-full placeholder-gray-700"
             />
             <div class="flex space-x-3">
-              <button type="button" id="deleteBtn" class="hidden p-2 text-gray-400 hover:text-red-400 transition">
+              <button type="button" for id="deleteBtn" class="hidden p-2 text-gray-400 hover:text-red-400 transition">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                 </svg>
@@ -120,7 +130,6 @@
               </button>
             </div>
           </div>
-
           <textarea
             id="content-input"
             name="mainnote"
@@ -144,7 +153,6 @@
       const noteForm = document.getElementById("note-form");
       const welcomeScreen = document.getElementById("welcome-screen");
       const deleteBtn = document.getElementById("deleteBtn");
-      
       const titleInput = document.getElementById("title-input");
       const contentInput = document.getElementById("content-input");
       const idInput = document.getElementById("note-id-input");
@@ -152,20 +160,63 @@
       const noteItems = document.querySelectorAll(".note-item");
       const saveBtn = document.getElementById("saveBtn");
 
-      // Helper: Show Editor
+      // Bulk Action Elements
+      const searchContainer = document.getElementById("search-container");
+      const bulkActionBar = document.getElementById("bulk-action-bar");
+      const selectAllCheckbox = document.getElementById("select-all-checkbox");
+      const noteCheckboxes = document.querySelectorAll(".note-checkbox");
+      const bulkDeleteForm = document.getElementById("bulk-delete-form");
+
+      // UI: Handle Bulk Action Visibility
+      function updateBulkUI() {
+        const checkedBoxes = document.querySelectorAll(".note-checkbox:checked");
+        const count = checkedBoxes.length;
+
+        if (count > 0) {
+          searchContainer.classList.add("hidden");
+          bulkActionBar.classList.remove("hidden");
+        } else {
+          searchContainer.classList.remove("hidden");
+          bulkActionBar.classList.add("hidden");
+          selectAllCheckbox.checked = false;
+        }
+
+        // Sync Select All checkbox
+        selectAllCheckbox.checked = (count === noteCheckboxes.length && noteCheckboxes.length > 0);
+      }
+
+      // Individual checkbox listener
+      noteCheckboxes.forEach(cb => {
+        cb.addEventListener("change", updateBulkUI);
+      });
+
+      // Select All listener
+      selectAllCheckbox.addEventListener("change", () => {
+        noteCheckboxes.forEach(cb => cb.checked = selectAllCheckbox.checked);
+        updateBulkUI();
+      });
+
+      // Bulk Delete Confirmation
+      bulkDeleteForm.addEventListener("submit", (e) => {
+        const count = document.querySelectorAll(".note-checkbox:checked").length;
+        if (!confirm(`Are you sure you want to delete ${count} notes?`)) {
+          e.preventDefault();
+        }
+      });
+
+      // Editor Logic
       function openEditor(isEdit = false, data = {}) {
         welcomeScreen.classList.add("hidden");
         noteForm.classList.remove("hidden");
         
         if (isEdit) {
-          noteForm.action = `/updateNote/${data.id}`;// Change action to your update route
+          noteForm.action = `/updateNote/${data.id}`;
           idInput.value = data.id;
           titleInput.value = data.title;
           contentInput.value = data.content;
           modeIndicator.innerText = "Edit Mode";
           deleteBtn.classList.remove("hidden");
           saveBtn.textContent = "Update";
-
         } else {
           noteForm.action = "/createNote";
           noteForm.reset();
@@ -177,10 +228,11 @@
         titleInput.focus();
       }
 
-      // Handle clicking a Note Item
       noteItems.forEach(item => {
-        item.addEventListener("click", () => {
-          // Visual selection state
+        item.addEventListener("click", (e) => {
+          // Don't open editor if clicking checkbox
+          if (e.target.type === 'checkbox') return;
+
           noteItems.forEach(i => i.classList.remove('active', 'bg-purple-500/60'));
           item.classList.add('active', 'bg-purple-500/60');
 
@@ -193,20 +245,17 @@
         });
       });
 
-      // New Note Button
       addNewBtn.addEventListener("click", () => {
         noteItems.forEach(i => i.classList.remove('active', 'bg-purple-500/60'));
         openEditor(false);
       });
 
-      // Cancel Button
       cancelBtn.addEventListener("click", () => {
         noteForm.classList.add("hidden");
         welcomeScreen.classList.remove("hidden");
         noteItems.forEach(i => i.classList.remove('active', 'bg-purple-500/60'));
       });
 
-      // Dropdown Logic
       profileBtn.addEventListener("click", (e) => {
         e.stopPropagation();
         profileMenu.classList.toggle("hidden");
@@ -215,21 +264,6 @@
       window.addEventListener("click", (e) => {
         if (!profileBtn.contains(e.target)) profileMenu.classList.add("hidden");
       });
-      function confirmDelete(event) {
-  // 1. Stop the note from opening/selecting when the delete button is clicked
-  event.stopPropagation();
-
-  // 2. Show the confirmation dialog
-  const confirmed = confirm("Are you sure you want to delete this note?");
-  
-  // 3. If the user clicks "Cancel", prevent the form from submitting
-  if (!confirmed) {
-    event.preventDefault();
-    return false;
-  }
-  
-  return true;
-}
     </script>
   </body>
 </html>
