@@ -25,9 +25,7 @@ route.get("/", async (req, res) => {
     res.render("zettel", { userDetail, userNotes });
   } catch (error) {
     console.error("Error accessing zettel route:", error);
-    return res
-      .status(500)
-      .render("error", { message: "A server error occurred." });
+    res.status(500).json({ error: "Something went wrong" });
   }
 });
 
