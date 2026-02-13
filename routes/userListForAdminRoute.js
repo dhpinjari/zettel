@@ -10,25 +10,38 @@ route.get("/", async (req, res) => {
   if (!token) {
     return res.redirect("/login");
   }
-  // AdminUser is not available so it is redirecting to lOGIN page
-  try {
-    // const decode = jwt.verify(token, config.JWT_SECRET);
-    // const adminId = decode.id || decode.userid || decode._id;
 
-    const [showAllUsers, totalUser, totalNotes] = await Promise.all([
-      userModel.find().lean(), // Use .lean() for faster query performance when not modifying the results.
-      // userModel.findById(adminId),
-      userModel.countDocuments(),
-      notes.countDocuments(),
-    ]);
-    // if (!adminUser) {
-    //   return res.redirect("/login");
-    // }
-    res.render("userListForAdmin", {
+  try {
+    const decode = jwt.verify(token, config.JWT_SECRET);
+
+    const [
       showAllUsers,
-      // adminUser,
+      adminUser,
       totalUser,
       totalNotes,
+      singleUserNotesCount,
+    ] = await Promise.all([
+      userModel.find().lean(), // Use .lean() for faster query performance when not modifying the results.
+      userModel.findById(decode.userID),
+      userModel.countDocuments(),
+      notes.countDocuments(),
+      notes.aggregate([{ $group: { _id: "$userid", count: { $sum: 1 } } }]),
+    ]);
+    if (!adminUser) {
+      return res.redirect("/login");
+    }
+    const userNoteMap = {};
+    singleUserNotesCount.forEach((item) => {
+      if (item._id) {
+        userNoteMap[item._id.toString()] = item.count;
+      }
+    });
+    res.render("userListForAdmin", {
+      showAllUsers,
+      adminUser,
+      totalUser,
+      totalNotes,
+      userNoteMap,
     });
   } catch (error) {
     console.error("Error fetching user list:", error);
