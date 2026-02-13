@@ -1,11 +1,35 @@
 const express = require("express");
 const route = express.Router();
 const userModel = require("../model/users");
+const notes = require("../model/notes");
+const jwt = require("jsonwebtoken");
+const config = require("../config/config");
 
 route.get("/", async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.redirect("/login");
+  }
+  // AdminUser is not available so it is redirecting to lOGIN page
   try {
-    const showAllUsers = await userModel.find().lean(); // Use .lean() for faster query performance when not modifying the results.
-    res.render("userListForAdmin", { showAllUsers });
+    // const decode = jwt.verify(token, config.JWT_SECRET);
+    // const adminId = decode.id || decode.userid || decode._id;
+
+    const [showAllUsers, totalUser, totalNotes] = await Promise.all([
+      userModel.find().lean(), // Use .lean() for faster query performance when not modifying the results.
+      // userModel.findById(adminId),
+      userModel.countDocuments(),
+      notes.countDocuments(),
+    ]);
+    // if (!adminUser) {
+    //   return res.redirect("/login");
+    // }
+    res.render("userListForAdmin", {
+      showAllUsers,
+      // adminUser,
+      totalUser,
+      totalNotes,
+    });
   } catch (error) {
     console.error("Error fetching user list:", error);
 
